@@ -6,10 +6,10 @@ from django.db import migrations
 def populate_status(apps, schemaeditor):
     entries = {
         "published": "A post that is visible to all", 
-        "draft": "A post that only the author can interact with"
+        "draft": "A post that only the author can interact with",
         "archived": "An older post no longer published"
     }
-    Status = apps.get_model("post", "Status")
+    Status = apps.get_model("posts", "Status")
     for key, value in entries.items():
         status_obj = Status(name=key, description=value)
         status_obj.save()
