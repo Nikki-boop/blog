@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Delete <Post>{% endblock title %}</Post>
+{% block title %}Archive <Post>{% endblock title %}</Post>
 
 {% block content %}
-<h1>Delete Post</h1>
-<p>Are you sure you want to delete this post: "{{ post.title }}</p>
+<h1>Archive Post</h1>
+<p>Are you sure you want to archive this post: "{{ post.title }}</p>
 <form method="POST">
     {% csrf_token %}
     <input type="submit" class="btn btn-danger" value="Confirm">
