@@ -9,5 +9,5 @@ urlpatterns = [
     path("new/", views.PostCreateView.as_view(), name="new"), 
     path("<int:pk>/edit/", views.PostUpdateView.as_view(), name="edit"), 
     path("<int:pk>/delete/", views.PostDeleteView.as_view(), name="delete"), 
-    path("<int:pk>/archive/", views.PostArchiveView.as_view(), name="archive"),
+    path("archive/", views.PostArchiveView.as_view(), name="archive"),
 ]
