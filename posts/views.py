@@ -44,24 +44,19 @@ class DraftPostListView(LoginRequiredMixin, ListView):
         context ["title"] = "Draft"
         return context
 
-class PostArchiveView(ListView):
+class PostArchiveView(LoginRequiredMixin, ListView):
     template_name = "posts/list.html"
     model = Post
-    success_url = reverse_lazy("list")
-
-    # def test_func(self):
-    #     post = self.get_object()
-    #     return post.author == self.request.user
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        published_status = Status.objects.get(name="archive")
+        archived_status = Status.objects.get(name="archive")
         context["post_list"] = (
             Post.objects
-            .filter(status=published_status)
+            .filter(status=archived_status)
             .order_by("created_on").reverse()
         )
-        context ["title"] = "Archive"
         return context
 
 
