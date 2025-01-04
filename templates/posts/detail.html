@@ -13,7 +13,7 @@
     {% if user == post.author %}
         <a href="{% url 'edit' post.id %}" class="btn btn-primary">Edit</a>
         <a href="{% url 'delete' post.id %}" class="btn btn-primary">Delete</a>
-        <a href="{% url 'archive' post.id %}" class="btn btn-primary">Archive</a>
+        <a href="{% url 'archived' post.id %}" class="btn btn-primary">Archive</a>
         
     {% endif %}
 {% endif %}

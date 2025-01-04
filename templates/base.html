@@ -23,7 +23,7 @@
               <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
               {% if user.is_authenticated %}
                   <a class="nav-link" href="{% url 'drafts' %}">Drafts</a>
-                  <a class="nav-link" href="{% url 'archive' %}">Archive</a>
+          
                   
                   <form method="POST" action="{% url 'logout' %}">
                       {% csrf_token %}

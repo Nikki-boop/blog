@@ -5,7 +5,10 @@ from django.views.generic import (
     UpdateView, 
     DeleteView, 
 )
+
 from .models import Post, Status
+from datetime import datetime
+
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
@@ -44,23 +47,24 @@ class DraftPostListView(LoginRequiredMixin, ListView):
         context ["title"] = "Draft"
         return context
 
-class PostArchiveView(LoginRequiredMixin, ListView):
-    template_name = "posts/list.html"
+class ArchiveView(LoginRequiredMixin, ListView):
+    template_name = "posts/archive.html"
     model = Post
-    
+    context_object_name = "posts"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        archived_status = Status.objects.get(name="archive")
-        context["post_list"] = (
-            Post.objects
-            .filter(status=archived_status)
-            .order_by("created_on").reverse()
-        )
-        return context
+    def get_queryset(self):
+        year = self.kwargs.get("year")
+        month = self.kwargs.get("month")
 
-
-
+        if year and month:
+            return Post.objects.filter(
+                published_date__year=year, 
+                published_date__month=month
+            )
+        elif year: 
+            return Post.objects.filter(published_date__year=year)
+        else: 
+            return Post.objects.none()
 
 class PostDetailView(UserPassesTestMixin, DetailView):
     template_name = "posts/detail.html"
@@ -107,6 +111,16 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = reverse_lazy("list")
 
+    def test_func(self):
+        post = self.get_object()
+        return post.author == self.request.user
+    
+
+class PostArchivedView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    template_name = "posts/archived.html"
+    model = Post
+    success_url = reverse_lazy("list")
+    
     def test_func(self):
         post = self.get_object()
         return post.author == self.request.user
